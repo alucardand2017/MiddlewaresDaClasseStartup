@@ -21,21 +21,27 @@ public class Startup
         
         //Middleware sendo utilizado utilizando métodos de extensão.
         app.UsarChaves();
+        app.UseWhen( context=>context.Request.Query.ContainsKey("CaminhoC"),
+        appC => 
+        {
+            appC.Use( async (context, next) =>
+            {
+                await context.Response.WriteAsync("\nRamificacao C");
+                await next();
+            });
+        });
+
         app.Map("/CaminhoB", async appB =>
         {
             appB.Run( async context => 
             {
-                await context.Response.WriteAsync("Caminho B");
+                await context.Response.WriteAsync("\nRamificacao B");
             });
         });
- 
- 
 
-        app.Run( async context =>
+         app.Run( async context =>
         {
-            await context.Response.WriteAsync("Middleware Terminal");
+            await context.Response.WriteAsync("\nMiddleware Terminal");
         });
-
-        // a saída do programa será =  >>>[[[[[[Middleware Terminal]]]]]]<<< 
     }
 }

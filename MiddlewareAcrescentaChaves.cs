@@ -14,9 +14,9 @@ public MiddlewareAcrescentaChaves(RequestDelegate next)
 
 public async Task Invoke(HttpContext context)
 {
-    await context.Response.WriteAsync("[[[");
+    await context.Response.WriteAsync("\n[[[");
     await _next(context);
-    await context.Response.WriteAsync("]]]");
+    await context.Response.WriteAsync("\n]]]");
 }
 
 }
