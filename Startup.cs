@@ -15,18 +15,19 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        
-        app.Use(async (context, next)=> {
-            await context.Response.WriteAsync(">>>");
-            await next();
-            await context.Response.WriteAsync("<<<");
-        });
-       
+              
         //Middleware criado utilizando um arquivo sem método de extensão.
-        app.UseMiddleware<MiddlewareAcrescentaChaves>();
+        //app.UseMiddleware<MiddlewareAcrescentaChaves>();
         
         //Middleware sendo utilizado utilizando métodos de extensão.
         app.UsarChaves();
+        app.Map("/CaminhoB", async appB =>
+        {
+            appB.Run( async context => 
+            {
+                await context.Response.WriteAsync("Caminho B");
+            });
+        });
  
  
 
